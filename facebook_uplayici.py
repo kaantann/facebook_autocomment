@@ -10,7 +10,6 @@ ALGORİTMA
 6. Tarayıcı Kapatılacak
 
 '''
-import time
 import webbrowser
 import pyautogui
 import os
@@ -27,26 +26,47 @@ linkler = linkler_burda.readlines()
 #close the file
 linkler_burda.close()
 
+#adjusting links' format
+silinecek = list()
+for index,link in enumerate(linkler):
+    if "http" in link:
+        http_index = link.index("http")
+        linkler[index] = link[http_index:]
+    else:
+        silinecek.append(index)
+
+arrangement=0
+for number in silinecek:
+    linkler.pop(number-arrangement)
+    arrangement +=1
+
+#sleep and text inputs
+val_sleep = 6
+text = "Up!"
+
 #opening the client
 def open_new_window():
-    webbrowser.open_new(linkler[0])
-    time.sleep(11)
+    webbrowser.open_new(linkler[link])
+    pyautogui.sleep(val_sleep+3) #11
+    pyautogui.moveTo(308,707)
+    pyautogui.click(button='left', clicks=1)
+    pyautogui.hotkey('f11')
 
 #opening a new tab
 def open_new_tab():
     webbrowser.open_new_tab(linkler[link])
-    time.sleep(8)
+    pyautogui.sleep(val_sleep) #8
 
 #commenting 'Up!'
 def typing_up():
     pyautogui.moveTo(308,707)
     pyautogui.click(button='left', clicks=1)
     pyautogui.press("end")
-    pyautogui.moveTo(700,930)
+    pyautogui.moveTo(625,983)
     pyautogui.click(button='left', clicks=1)
-    pyautogui.typewrite("Up!", interval=0.05)
+    pyautogui.typewrite(text, interval=0.05)
     pyautogui.press("enter")
-    time.sleep(5)
+    pyautogui.sleep(val_sleep)
 
 #executing
 link_sayisi = len(linkler)
@@ -57,9 +77,13 @@ for link in range(link_sayisi):
     else:
         open_new_tab()
         typing_up()
-        pyautogui.hotkey('ctrl','w')
+        pyautogui.hotkey('ctrl','w') #close tab
     
+pyautogui.hotkey('f11')
+
 pyautogui.alert(text='Tüm postlara başarılı biçimde Up! yazıldı', title='ODTÜ-HAYDOST OTOMASYON LTD. ŞTİ.', button="Tamam knk tşk")
 
 pyautogui.hotkey('ctrl','w')
+
+pyautogui
 
